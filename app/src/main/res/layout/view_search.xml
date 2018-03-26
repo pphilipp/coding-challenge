@@ -51,5 +51,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"/>
 
+        <include layout="@layout/view_search_content"/>
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
