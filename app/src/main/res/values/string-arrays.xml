@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="search_options">
+        <item>@string/list_tab_text</item>
+        <item>@string/map_tab_text</item>
+    </string-array>
+
+</resources>
