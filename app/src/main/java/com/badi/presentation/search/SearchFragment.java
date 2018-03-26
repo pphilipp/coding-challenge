@@ -22,14 +22,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.badi.R;
+import com.badi.common.utils.CityHomeUtil;
 import com.badi.common.utils.DialogFactory;
 import com.badi.common.utils.LocationHelper;
 import com.badi.common.utils.ViewUtil;
+import com.badi.data.entity.SimpleCity;
 import com.badi.data.entity.PlaceAddress;
 import com.badi.data.entity.search.Coordinates;
 import com.badi.data.entity.search.Location;
@@ -41,6 +45,7 @@ import com.badi.presentation.main.MainActivity;
 import com.badi.presentation.navigation.Navigator;
 import com.google.android.gms.common.api.ResolvableApiException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,6 +56,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
+import static com.badi.presentation.search.CityHomeAdapter.TYPE_ITEM_LARGE;
+import static com.badi.presentation.search.CityHomeAdapter.TYPE_ITEM_SMALL;
 
 /**
  * A {@link BaseFragment} that displays the search
@@ -63,6 +71,15 @@ public class SearchFragment extends BaseFragment {
     @BindView(R.id.appbar) AppBarLayout appBar;
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
     @BindView(R.id.view_search) View searchView;
+    @BindView(R.id.rv_spain_cities) RecyclerView spainRecyclerView;
+    @BindView(R.id.rv_italy_cities) RecyclerView italyRecyclerView;
+    @BindView(R.id.rv_suggested_cities) RecyclerView suggestedRecyclerView;
+
+    private CityHomeAdapter citiesAdapter;
+
+    private List<SimpleCity> citiesOfSpain;
+    private List<SimpleCity> citiesOfItaly;
+    private List<SimpleCity> suggestedCities;
 
     private LocationHelper locationHelper;
     private Unbinder unbinder;
@@ -92,6 +109,10 @@ public class SearchFragment extends BaseFragment {
         setupToolbar();
         setupComponents();
         setupLocationCallback();
+        setupSpainCitiesAdapter();
+        setupItalyCitiesAdapter();
+        setupSuggestedCitiesAdapter();
+
         return fragmentView;
     }
 
@@ -138,6 +159,69 @@ public class SearchFragment extends BaseFragment {
     @OnClick(R.id.button_search_list_room)
     void onClickButtonListARoom() {
 
+    }
+
+    private void setupItalyCitiesAdapter() {
+        populateCitiesOfItaly();
+        citiesAdapter = new CityHomeAdapter(TYPE_ITEM_SMALL);
+        citiesAdapter.setAmenities(citiesOfItaly);
+
+        citiesAdapter.setOnEventClickListener(city -> {
+            Location location = buildLocation(city.getAddress(), city.getPlaceID());
+            navigateToSearchResultWithLocation(city.getAddress(), location);
+        });
+
+        italyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
+        italyRecyclerView.setAdapter(citiesAdapter);
+        italyRecyclerView.setNestedScrollingEnabled(false);
+    }
+
+    private void setupSpainCitiesAdapter(){
+        populateCitiesOfSpain();
+        citiesAdapter = new CityHomeAdapter(TYPE_ITEM_SMALL);
+        citiesAdapter.setAmenities(citiesOfSpain);
+
+        citiesAdapter.setOnEventClickListener(city -> {
+            Location location = buildLocation(city.getAddress(), city.getPlaceID());
+            navigateToSearchResultWithLocation(city.getAddress(), location);
+        });
+
+        spainRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
+        spainRecyclerView.setAdapter(citiesAdapter);
+        spainRecyclerView.setNestedScrollingEnabled(false);
+    }
+
+    private void setupSuggestedCitiesAdapter() {
+        populateSuggestedCities();
+        citiesAdapter = new CityHomeAdapter(TYPE_ITEM_LARGE);
+        citiesAdapter.setAmenities(suggestedCities);
+
+        citiesAdapter.setOnEventClickListener(city -> {
+            Location location = buildLocation(city.getAddress(), city.getPlaceID());
+            navigateToSearchResultWithLocation(city.getAddress(), location);
+        });
+
+        suggestedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
+        suggestedRecyclerView.setAdapter(citiesAdapter);
+        suggestedRecyclerView.setNestedScrollingEnabled(false);
+    }
+
+    private void populateCitiesOfItaly() {
+        citiesOfItaly = new ArrayList<>();
+        citiesOfItaly.addAll(CityHomeUtil.createPredefinedCitiesOfItaly(getActivity()));
+    }
+
+    private void populateCitiesOfSpain(){
+        citiesOfSpain = new ArrayList<>();
+        citiesOfSpain.addAll(CityHomeUtil.createPredefinedCitiesOfSpain(getActivity()));
+    }
+
+    private void populateSuggestedCities() {
+        suggestedCities = new ArrayList<>();
+        suggestedCities.addAll(CityHomeUtil.createPredefinedSuggestedCities(getActivity()));
     }
 
     private void handleSearchTypeNavigation(PlaceAddress placeAddress) {
