@@ -73,7 +73,7 @@ public class RoomsPresenter extends BasePresenter<RoomsContract.View> implements
         checkViewAttached();
         getView().hideEmptyView();
         getView().showLoading();
-        searchRoomsByLocationUseCase.execute(location, filters, new SearchRoomsByLocationObserver());
+        searchRoomsByLocationUseCase.execute(location, filters, new SearchRoomsObserver());
     }
 
     @Override
@@ -91,7 +91,7 @@ public class RoomsPresenter extends BasePresenter<RoomsContract.View> implements
         if (!isSearchByLocation) {
             searchRoomsByCoordinatesUseCase.executePaginated(page, offsetRequestedRooms, new SearchPaginatedRoomsObserver());
         } else {
-            searchRoomsByLocationUseCase.executePaginated(page, offsetRequestedRooms, new SearchPaginatedRoomsByLocationObserver());
+            searchRoomsByLocationUseCase.executePaginated(page, offsetRequestedRooms, new SearchPaginatedRoomsObserver());
         }
     }
 
@@ -110,7 +110,7 @@ public class RoomsPresenter extends BasePresenter<RoomsContract.View> implements
         if (!isSearchByLocation) {
             searchRoomsByCoordinatesUseCase.executePaginated(1, offsetRequestedRooms, new SearchRoomsObserver());
         } else {
-            searchRoomsByLocationUseCase.executePaginated(1, offsetRequestedRooms, new SearchPaginatedRoomsByLocationObserver());
+            searchRoomsByLocationUseCase.executePaginated(1, offsetRequestedRooms, new SearchRoomsObserver());
         }
     }
 
@@ -184,13 +184,5 @@ public class RoomsPresenter extends BasePresenter<RoomsContract.View> implements
             }
             getView().showRetry();
         }
-    }
-
-    private class SearchRoomsByLocationObserver extends DefaultObserver<List<Room>> {
-
-    }
-
-    private class SearchPaginatedRoomsByLocationObserver extends DefaultObserver<List<Room>> {
-
     }
 }
