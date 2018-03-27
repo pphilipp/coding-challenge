@@ -254,6 +254,9 @@
 
     <!-- Search Results -->
     <string name="search_result_see_more_rooms">Want to see more rooms? Search in another area or try changing your selected filters.</string>
+    <!-- Search Dialog -->
+    <string name="search_popup_title">Need a Badi?</string>
+    <string name="search_popup_content">List your rooms and sand and receive request to find your perfect roommate!</string>
 
     <!--Spain search location request params-->
     <string name="address_barcelona" translatable="false">Barcelona</string>

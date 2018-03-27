@@ -21,6 +21,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,7 @@ import com.badi.R;
 import com.badi.common.utils.CityHomeUtil;
 import com.badi.common.utils.DialogFactory;
 import com.badi.common.utils.LocationHelper;
+import com.badi.common.utils.RoomDialogFactory;
 import com.badi.common.utils.ViewUtil;
 import com.badi.data.entity.SimpleCity;
 import com.badi.data.entity.PlaceAddress;
@@ -158,7 +160,8 @@ public class SearchFragment extends BaseFragment {
 
     @OnClick(R.id.button_search_list_room)
     void onClickButtonListARoom() {
-
+        RoomDialogFactory.createOneOptionDialog(getActivity(), true, () ->
+            navigator.navigateToListRoom(getActivity())).show();
     }
 
     private void setupItalyCitiesAdapter() {
