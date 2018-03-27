@@ -33,6 +33,7 @@ import com.badi.R;
 import com.badi.common.utils.CityHomeUtil;
 import com.badi.common.utils.DialogFactory;
 import com.badi.common.utils.LocationHelper;
+import com.badi.common.utils.RoomDialogFactory;
 import com.badi.common.utils.ViewUtil;
 import com.badi.data.entity.SimpleCity;
 import com.badi.data.entity.PlaceAddress;
@@ -159,7 +160,8 @@ public class SearchFragment extends BaseFragment {
 
     @OnClick(R.id.button_search_list_room)
     void onClickButtonListARoom() {
-        navigator.navigateToListRoom(getActivity());
+        RoomDialogFactory.createOneOptionDialog(getActivity(), true, () ->
+            navigator.navigateToListRoom(getActivity())).show();
     }
 
     private void setupItalyCitiesAdapter() {
