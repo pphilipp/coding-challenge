@@ -1,6 +1,6 @@
-# Badi Android Coding challenge
+# Android Coding challenge
 
-The purpose of this challenge is to test the applicant capabilities and, by touching different elements of an existing app, get an idea of how he/she would adapt under different circumstances (existing code, UI, app logic, API communication…) before entering at [Badi](http://badiapp.com/). 
+The purpose of this challenge is to test the applicant capabilities and, by touching different elements of an existing app, get an idea of how he/she would adapt under different circumstances (existing code, UI, app logic, API communication…).
 
 It's based on the architecture, tools and guidelines that we use when developing for the Android platform 
 
